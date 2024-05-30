@@ -1,0 +1,91 @@
+{% extends 'core/base.html' %}
+{% block content %}
+    <div class="mx-auto max-w-sm p-4">
+        <h1 class="text-2xl font-bold mb-4">Sign Up</h1>
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Username</span>
+                </label>
+                <input type="text"
+                       name="username"
+                       class="input input-bordered"
+                       placeholder="john32"
+                       required />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">First Name</span>
+                </label>
+                <input type="text"
+                       name="first_name"
+                       class="input input-bordered"
+                       placeholder="John"
+                       required />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Last Name</span>
+                </label>
+                <input type="text"
+                       name="last_name"
+                       class="input input-bordered"
+                       placeholder="Doe"
+                       required />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Email</span>
+                </label>
+                <input type="email"
+                       name="email"
+                       class="input input-bordered"
+                       placeholder="JohnDoe@gmail.com"
+                       required />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Password</span>
+                </label>
+                <input type="password"
+                       name="password1"
+                       class="input input-bordered"
+                       placeholder="Enter your password"
+                       required />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Confirm Password</span>
+                </label>
+                <input type="password"
+                       name="password2"
+                       class="input input-bordered"
+                       placeholder="Re-enter your password"
+                       required />
+            </div>
+            <div class="form-control mt-4">
+                <button type="submit"
+                        class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white">Sign Up</button>
+            </div>
+            <p class="text-center mt-4">
+                Already have an account? <a href="{% url 'login' %}"
+    class="text-primary  text-blue-500 hover:text-blue-700">Login</a>
+            </p>
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-error bg-red-300 rounded-full mt-4">
+                            <span>{{ field.name }} - {{ error|escape }}</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-error bg-red-300 rounded-full mt-4 ">
+                        <span>{{ field.name }} - {{ error|escape }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

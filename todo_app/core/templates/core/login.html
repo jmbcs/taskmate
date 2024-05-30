@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% block content %}
+    <div class="mx-auto max-w-sm p-4">
+        <h1 class="text-2xl font-bold mb-4">Login</h1>
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Username</span>
+                </label>
+                <input type="text"
+                       name="username"
+                       class="input input-bordered"
+                       placeholder="john32"
+                       required />
+            </div>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Password</span>
+                </label>
+                <input type="password"
+                       name="password"
+                       class="input input-bordered"
+                       placeholder="Enter your password"
+                       required />
+            </div>
+            <div class="form-control mt-4">
+                <button type="submit"
+                        class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white">Login</button>
+            </div>
+            <p class="text-center mt-2">
+                Forgot your password? <a href="#" class="text-primary text-blue-500 hover:text-blue-700">Recover</a>
+            </p>
+            {% if messages %}
+                <div class="mt-4">
+                    {% for message in messages %}
+                        <div class="alert alert-error bg-red-300 rounded-full">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}
