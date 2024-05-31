@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% block content %}
+    <div class="max-w-6xl mx-auto py-10 px-6 xl:px-0 md:flex justify-between">
+        <table class="table table-lg">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+            <tbody id="todo-table-body">
+                {% for todo in todos %}
+                    <tr>
+                        <td>{{ todo.task_description }}</td>
+                        <td>
+                            <span class="badge badge-ghost badge-md">{{ todo.category }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-ghost badge-md">{{ todo.task_status }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-ghost badge-md">{{ todo.priority }}</span>
+                        </td>
+                        <td>{{ todo.due_date }}</td>
+                        <td>{{ todo.created_at }}</td>
+                        <td>{{ todo.updated_at }}</td>
+                        <td>
+                            <button class="btn btn-xs"
+                                    hx-get="{% url 'todo_detail' todo.id %}"
+                                    hx-target="#todo_detail_modal"
+                                    hx-swap="innerHTML"
+                                    onclick="todo_detail_modal.showModal()">Details</button>
+                            <dialog id="todo_detail_modal" class="modal">
+                            </dialog>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
