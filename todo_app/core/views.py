@@ -44,8 +44,11 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')  # Redirect to a success page
+            # Get the next parameter from the request, default to '/'
+            return redirect(request.GET.get('next') or '/')
         else:
             messages.error(request, 'Invalid password')
 
-    return render(request, 'core/login.html')
+    # If the request method is not POST or login failed, render the login page
+    # next = request.GET.get('next')
+    return render(request, 'core/login.html', {'next': next})
