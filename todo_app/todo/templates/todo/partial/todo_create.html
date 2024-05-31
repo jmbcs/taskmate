@@ -1,0 +1,73 @@
+<div class="modal-box">
+    <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <form method="post"
+          class="space-y-4"
+          hx-post="{% url 'submit_todo' %}"
+          hx-target="#todo-table-body"
+          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+          hx-swap="beforeend"
+          hx-on::after-request="this.reset()">
+        {% csrf_token %}
+        <div class="flex flex-col space-y-1">
+            <label for="task_description" class="text-sm font-medium text-gray-700">Task Description</label>
+            <input type="text"
+                   id="task_description"
+                   name="task_description"
+                   placeholder="Task Description"
+                   class="input input-bordered focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="flex flex-col space-y-1">
+            <label for="task_category" class="text-sm font-medium text-gray-700">Category</label>
+            <select id="task_category"
+                    name="task_category"
+                    class="select select-bordered focus:ring-blue-500 focus:border-blue-500">
+                <option disabled selected>Select Category</option>
+                {% for choice in Todo.CATEGORY_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
+            </select>
+        </div>
+        <div class="flex flex-col space-y-1">
+            <label for="task_status" class="text-sm font-medium text-gray-700">Status</label>
+            <select id="task_status"
+                    name="task_status"
+                    class="select select-bordered focus:ring-blue-500 focus:border-blue-500">
+                <option disabled selected>Select Status</option>
+                {% for choice in Todo.STATUS_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
+            </select>
+        </div>
+        <div class="flex flex-col space-y-1">
+            <label for="task_priority" class="text-sm font-medium text-gray-700">Priority</label>
+            <select id="task_priority"
+                    name="task_priority"
+                    class="select select-bordered focus:ring-blue-500 focus:border-blue-500">
+                <option disabled selected>Select Priority</option>
+                {% for choice in Todo.PRIORITY_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
+            </select>
+        </div>
+        <div class="flex flex-col space-y-1">
+            <label for="due_date" class="text-sm font-medium text-gray-700">Due Date</label>
+            <input type="date"
+                   id="due_date"
+                   name="due_date"
+                   class="input input-bordered focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="flex flex-col space-y-1">
+            <label for="notes" class="text-sm font-medium text-gray-700">Note</label>
+            <input type="text"
+                   id="notes"
+                   name="notes"
+                   placeholder="Add any note you might require"
+                   class="input input-bordered focus:ring-blue-500 focus:border-blue-500"
+                   style="height: 100px">
+            <!-- Increase the height as needed -->
+        </div>
+        <button type="submit"
+                class="btn btn-primary w-full py-2 px-4 rounded-full text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            Create Task
+        </button>
+    </form>
+</div>
+<form method="dialog" class="modal-backdrop">
+    <button>close</button>
+</form>
