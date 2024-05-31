@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="cupcake">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>To-Do List</title>
         <link href="https://cdn.jsdelivr.net/npm/daisyui@4.11.1/dist/full.min.css"
               rel="stylesheet"
@@ -14,15 +14,15 @@
                 crossorigin="anonymous"></script>
     </head>
     <body>
-        <nav class="border border-gray-400 shadow">
-            <div class="max-w-6xl mx-auto xl:px-0 flex items-center justify-between  max-h-[5vh]">
+        <nav class=" shadow">
+            <div class="max-w-6xl mx-auto xl:px-0 flex items-center justify-between max-h-[5vh]">
                 <div class="menu-left flex items-center space-x-6">
                     <a href="{% url 'front_page' %}"
-                       class="py-4 text-lg text-blue-500 font-semibold">CheckMate</a>
+                       class="py-4 text-lg text-blue-500 font-semibold">TrackMate</a>
                 </div>
                 <div class="menu-right flex items-center space-x-6">
-                    <ul class="flex items-center space-x-4">
-                        {% if request.user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
+                        <ul class="flex items-center space-x-4">
                             <li>
                                 <p>{{ request.user.username }}</p>
                             </li>
@@ -30,40 +30,52 @@
                                 {% csrf_token %}
                                 <button type="submit">Logout</button>
                             </form>
-                        {% else %}
-                            <form method="get" action="{% url 'login' %}">
-                                {% csrf_token %}
-                                <button type="submit">Login</button>
-                            </form>
-                            <li>
-                                <a href="{% url 'sign_up' %}">Sign Up</a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                        </ul>
+                    {% else %}
+                        <ul class="flex items-center space-x-4">
+                            {% if request.path != '/login/' %}
+                                <li>
+                                    <a href="{% url 'login' %}">Login</a>
+                                </li>
+                            {% endif %}
+                            {% if request.path != '/sign_up/' %}
+                                <li>
+                                    <a href="{% url 'sign_up' %}">Sign Up</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         </nav>
     </body>
-    <main>
+    <main class="shadow">
         {% block content %}{% endblock %}
     </main>
     <footer>
         <div class="max-w-6xl mx-auto py-10 px-6 xl:px-0 md:flex justify-between">
             <div class="footer-left mb-12 md:mb-0">
-                <h2 class="mb-5 uppercase text-lg">About Us</h2>
-                <p class="text-gray-700">Lorem bla bla bla...</p>
+                <h2 class="mb-5 uppercase text-lg">About</h2>
+                <p class="text-gray-700">
+                    Crafted with passion by
+                    <a href="https://jmbcs.github.io/portfolio/"
+                       class="text-blue-500 hover:text-blue-800">Júlio Silva</a>
+                </p>
             </div>
             <div class="footer-right">
                 <h2 class="mb-5 uppercase text-lg">Social Links</h2>
                 <ul class="space-y-2">
                     <li>
-                        <a href="#" class="text-blue-500 hover:text-blue-800">Facebook</a>
+                        <a href="https://www.facebook.com/"
+                           class="text-blue-500 hover:text-blue-800">Facebook</a>
                     </li>
                     <li>
-                        <a href="#" class="text-blue-500 hover:text-blue-800">Twitter</a>
+                        <a href="https://x.com/?lang=en"
+                           class="text-blue-500 hover:text-blue-800">Twitter</a>
                     </li>
                     <li>
-                        <a href="#" class="text-blue-500 hover:text-blue-800">Instagram</a>
+                        <a href="https://www.instagram.com/"
+                           class="text-blue-500 hover:text-blue-800">Instagram</a>
                     </li>
                 </ul>
             </div>
