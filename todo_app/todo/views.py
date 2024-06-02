@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from todo.forms import TodoForm  # Create your views here.
 from todo.models import Todo
 
@@ -20,10 +20,18 @@ def todo_detail(request, pk: int):
 
 
 @login_required
+def delete_todo(request, pk: int):
+    todo = get_object_or_404(Todo, pk=pk)
+    todo.delete()
+    return redirect('todo_list')
+
+
+@login_required
 def todo_create(request: HttpRequest):
     context = {
         'Todo': Todo,
     }
+
     return render(request, 'todo/partial/todo_create.html', context)
 
 
