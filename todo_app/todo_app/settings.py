@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # installed apps
     'core',
     'todo',
+    'template_partials',
 ]
 
 MIDDLEWARE = [

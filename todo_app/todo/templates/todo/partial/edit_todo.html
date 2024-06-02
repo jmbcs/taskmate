@@ -1,14 +1,14 @@
-<div class="modal-box">
-    <h2 class="text-xl font-bold text-blue-500 mb-4">New Task</h2>
+<div class="modal-box" id="modal-box">
     <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
+    <h2 class="text-xl font-bold text-blue-500 mb-4">Edit Task</h2>
     <form method="post"
           class="space-y-4"
-          hx-post="{% url 'submit_todo' %}"
-          hx-target="#todo-table-body"
+          hx-post="{% url 'update_todo' todo.id %}"
+          hx-target="#todo-{{ todo.id }}"
           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-          hx-swap="beforeend"
+          hx-swap="outerHTML"
           hx-on::after-request="this.reset(); document.querySelector('.modal-backdrop button').click();">
         {% csrf_token %}
         <div class="flex flex-col space-y-1">
@@ -16,7 +16,7 @@
             <input type="text"
                    id="task_description"
                    name="task_description"
-                   placeholder="Task Description"
+                   value="{{ todo.task_description }}"
                    class="input input-bordered focus:ring-blue-500 focus:border-blue-500"
                    required>
         </div>
@@ -26,7 +26,7 @@
                     name="category"
                     class="select select-bordered focus:ring-blue-500 focus:border-blue-500"
                     required>
-                <option value="" disabled selected>Select Category</option>
+                <option value="{{ todo.category }}" selected>{{ todo.get_category }}</option>
                 {% for choice in Todo.CATEGORY_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
             </select>
         </div>
@@ -36,7 +36,7 @@
                     name="task_status"
                     class="select select-bordered focus:ring-blue-500 focus:border-blue-500"
                     required>
-                <option value=""  disabled selected>Select Status</option>
+                <option value="{{ todo.task_status }}" selected>{{ todo.get_status }}</option>
                 {% for choice in Todo.STATUS_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
             </select>
         </div>
@@ -46,7 +46,7 @@
                     name="priority"
                     class="select select-bordered focus:ring-blue-500 focus:border-blue-500"
                     required>
-                <option value=""  disabled selected>Select Priority</option>
+                <option value="{{ todo.priority }}" selected>{{ todo.get_priority }}</option>
                 {% for choice in Todo.PRIORITY_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
             </select>
         </div>
@@ -56,19 +56,19 @@
                    id="due_date"
                    name="due_date"
                    class="input input-bordered focus:ring-blue-500 focus:border-blue-500"
+                   value="{{ todo.due_date }}"
                    required>
         </div>
         <div class="flex flex-col space-y-1">
             <label for="notes" class="text-sm font-medium text-gray-700">Note</label>
             <textarea id="notes"
                       name="notes"
-                      placeholder="Add any note you might require"
                       class="input input-bordered focus:ring-blue-500 focus:border-blue-500 h-28 resize-vertical"
-                      required></textarea>
+                      required>{{ todo.notes }}</textarea>
         </div>
         <button type="submit"
                 class="btn btn-primary w-full py-2 px-4 rounded-full text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-            Create Task
+            Save Changes
         </button>
     </form>
 </div>

@@ -54,7 +54,20 @@ class Todo(models.Model):
 
     def get_badge_html(self, label, color):
         """Returns HTML for a badge with the specified label and color"""
-        return format_html('<span class="badge {}">{}</span>', color, label)
+        return format_html(
+            '<span class="badge badge-sm  lg:badge-md  {}">{}</span>',
+            color,
+            label,
+        )
+
+    def get_status(self):
+        return dict(self.STATUS_CHOICES)[self.task_status]
+
+    def get_priority(self):
+        return dict(self.PRIORITY_CHOICES)[self.priority]
+
+    def get_category(self):
+        return dict(self.CATEGORY_CHOICES)[self.category]
 
     def get_task_status_display(self):
         """Returns the current task status or 'Unknown'"""

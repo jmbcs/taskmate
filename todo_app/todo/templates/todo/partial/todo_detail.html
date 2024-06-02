@@ -1,18 +1,40 @@
-<div class="modal-box">
+<!-- Original Modal for Displaying Task Details -->
+<div class="modal-box" id="task-details-modal">
     <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
     <h3 class="text-lg font-bold text-blue-500">{{ todo.task_description }}</h3>
+    <p class="text-gray-700">
+        <strong>Category:</strong> {{ todo.get_task_category_display }}
+    </p>
+    <p class="text-gray-700">
+        <strong>Status:</strong> {{ todo.get_task_status_display }}
+    </p>
+    <p class="text-gray-700">
+        <strong>Priority:</strong> {{ todo.get_task_priority_display }}
+    </p>
+    <p class="text-gray-700">
+        <strong>Due Date:</strong> {{ todo.due_date }}
+    </p>
     <p class="text-gray-700">
         <strong>Created:</strong> {{ todo.created_at }}
     </p>
     <p class="text-gray-700">
         <strong>Updated:</strong> {{ todo.updated_at }}
     </p>
-    <p class="text-gray-700">
-        <strong>Note:</strong> {{ todo.notes }}
-    </p>
+    <div id="note-section">
+        <p class="text-gray-700">
+            <strong>Note:</strong> {{ todo.notes }}
+        </p>
+        <button class="btn btn-sm mt-4"
+                hx-get="{% url 'edit_todo' todo.id %}"
+                hx-trigger="click"
+                hx-target="#edit-modal"
+                hx-swap="outerHTML">Edit Task</button>
+    </div>
 </div>
+<!-- Edit Modal -->
+<div id="edit-modal"></div>
 <form method="dialog" class="modal-backdrop">
     <button>close</button>
 </form>
