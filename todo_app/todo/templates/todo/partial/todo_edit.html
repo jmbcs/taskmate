@@ -5,7 +5,7 @@
     <h2 class="text-xl font-bold  mb-4">Edit Task</h2>
     <form method="post"
           class="space-y-4"
-          hx-post="{% url 'update_todo' todo.id %}"
+          hx-post="{% url 'todo_update' todo.id %}"
           hx-target="#todo-{{ todo.id }}"
           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
           hx-swap="outerHTML"
@@ -89,7 +89,8 @@
         <button type="button"
                 class="btn btn-sm btn-primary"
                 hx-on="click"
-                hx-post="{% url 'update_todo' todo.id %}"
+                onclick="document.querySelector('.modal-backdrop button').click();"
+                hx-post="{% url 'todo_update' todo.id %}"
                 hx-target="#todo-{{ todo.id }}"
                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                 hx-swap="outerHTML"

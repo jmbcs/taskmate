@@ -5,7 +5,7 @@
     </form>
     <form method="post"
           class="space-y-4"
-          hx-post="{% url 'submit_todo' %}"
+          hx-post="{% url 'todo_submit' %}"
           hx-target="#todo-table-body"
           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
           hx-swap="beforeend"

@@ -21,7 +21,7 @@ def todo_detail(request, pk: int):
 
 
 @login_required
-def delete_todo(request, pk: int):
+def todo_delete(request, pk: int):
     todo = get_object_or_404(Todo, pk=pk)
     todo.delete()
     return redirect('todo_list')
@@ -37,7 +37,7 @@ def todo_create(request: HttpRequest):
 
 
 @login_required
-def submit_todo(request: HttpRequest):
+def todo_submit(request: HttpRequest):
 
     form = TodoForm(request.POST)
 
@@ -54,7 +54,7 @@ def submit_todo(request: HttpRequest):
 
 
 @login_required
-def update_todo(request: HttpRequest, pk):
+def todo_update(request: HttpRequest, pk):
     todo = get_object_or_404(Todo, pk=pk)
 
     if request.method == 'POST':
@@ -74,15 +74,15 @@ def update_todo(request: HttpRequest, pk):
         # Pre-fill the form with the existing todo item's data
         form = TodoForm(instance=todo)
 
-    return render(request, 'todo/partial/edit_todo.html', {'form': form, 'todo': todo})
+    return render(request, 'todo/partial/todo_edit.html', {'form': form, 'todo': todo})
 
 
 @login_required
-def edit_todo(request, pk):
+def todo_edit(request, pk):
     todo = get_object_or_404(Todo, pk=pk)
     form = TodoForm(instance=todo)
     return render(
         request,
-        'todo/partial/edit_todo.html',
+        'todo/partial/todo_edit.html',
         {'form': form, 'todo': todo, 'Todo': Todo},
     )

@@ -27,7 +27,7 @@
     </p>
     <div class="flex justify-between mt-8">
         <button class="btn btn-sm"
-                hx-get="{% url 'edit_todo' todo.id %}"
+                hx-get="{% url 'todo_edit' todo.id %}"
                 hx-trigger="click"
                 hx-target="#edit-modal"
                 hx-swap="outerHTML">Edit Task</button>
@@ -46,7 +46,7 @@
         <div class="modal-action">
             <button class="btn btn-sm" type="submit">Cancel</button>
             <button class="btn btn-error btn-sm"
-                    hx-delete="{% url 'delete_todo' todo.id %}"
+                    hx-delete="{% url 'todo_delete' todo.id %}"
                     hx-target="#todo-{{ todo.id }}"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                     hx-remove="#todo-{{ todo.id }}"
