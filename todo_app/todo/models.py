@@ -32,10 +32,8 @@ class Todo(models.Model):
     assigned_user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
-    task_description = models.CharField(max_length=300)
-    task_status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="TO_DO"
-    )
+    description = models.CharField(max_length=300)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="TO_DO")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     due_date = models.DateField()
@@ -50,7 +48,7 @@ class Todo(models.Model):
     )
 
     def __str__(self):
-        return f"{self.task_description} ({self.get_task_status_display()})"
+        return f"{self.description} ({self.get_status_display()})"
 
     def get_badge_html(self, label, color):
         """Returns HTML for a badge with the specified label and color"""
@@ -61,7 +59,7 @@ class Todo(models.Model):
         )
 
     def get_status(self):
-        return dict(self.STATUS_CHOICES)[self.task_status]
+        return dict(self.STATUS_CHOICES)[self.status]
 
     def get_priority(self):
         return dict(self.PRIORITY_CHOICES)[self.priority]
@@ -69,10 +67,10 @@ class Todo(models.Model):
     def get_category(self):
         return dict(self.CATEGORY_CHOICES)[self.category]
 
-    def get_task_status_display(self):
+    def get_status_display(self):
         """Returns the current task status or 'Unknown'"""
         try:
-            status_label = dict(self.STATUS_CHOICES)[self.task_status]
+            status_label = dict(self.STATUS_CHOICES)[self.status]
             color_map = {
                 'TO_DO': 'bg-blue-500',
                 'STALLED': 'bg-gray-500',
@@ -80,7 +78,7 @@ class Todo(models.Model):
                 'COMPLETED': 'bg-green-500',
             }
             return self.get_badge_html(
-                status_label, color_map.get(self.task_status, 'bg-gray-500')
+                status_label, color_map.get(self.status, 'bg-gray-500')
             )
         except KeyError:
             return self.get_badge_html('Unknown', 'bg-gray-500')

@@ -18,16 +18,65 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Todo',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('task_description', models.CharField(max_length=300)),
-                ('task_status', models.CharField(choices=[('TO_DO', 'To Do'), ('STALLED', 'Stalled'), ('IN_PROGRESS', 'In Progress'), ('COMPLETED', 'Completed')], default='TO_DO', max_length=20)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                ('description', models.CharField(max_length=300)),
+                (
+                    'status',
+                    models.CharField(
+                        choices=[
+                            ('TO_DO', 'To Do'),
+                            ('STALLED', 'Stalled'),
+                            ('IN_PROGRESS', 'In Progress'),
+                            ('COMPLETED', 'Completed'),
+                        ],
+                        default='TO_DO',
+                        max_length=20,
+                    ),
+                ),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now_add=True)),
                 ('due_date', models.DateField()),
-                ('priority', models.IntegerField(choices=[(1, 'Low'), (2, 'Medium'), (3, 'High')], default=1, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(3)])),
+                (
+                    'priority',
+                    models.IntegerField(
+                        choices=[(1, 'Low'), (2, 'Medium'), (3, 'High')],
+                        default=1,
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(3),
+                        ],
+                    ),
+                ),
                 ('notes', models.TextField(blank=True, null=True)),
-                ('category', models.CharField(choices=[('work', 'Work'), ('personal', 'Personal'), ('shopping', 'Shopping'), ('health', 'Health'), ('other', 'Other')], default='other', max_length=20)),
-                ('assigned_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'category',
+                    models.CharField(
+                        choices=[
+                            ('work', 'Work'),
+                            ('personal', 'Personal'),
+                            ('shopping', 'Shopping'),
+                            ('health', 'Health'),
+                            ('other', 'Other'),
+                        ],
+                        default='other',
+                        max_length=20,
+                    ),
+                ),
+                (
+                    'assigned_user',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

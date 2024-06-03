@@ -12,11 +12,11 @@
           id="edit-task-form">
         {% csrf_token %}
         <div class="flex flex-col space-y-1">
-            <label for="task_description" class="text-sm font-medium text-gray-700">Task Description</label>
+            <label for="description" class="text-sm font-medium text-gray-700">Task Description</label>
             <input type="text"
-                   id="task_description"
-                   name="task_description"
-                   value="{{ todo.task_description }}"
+                   id="description"
+                   name="description"
+                   value="{{ todo.description }}"
                    class="input input-bordered focus:ring-blue-500 focus:border-blue-500"
                    required>
         </div>
@@ -31,12 +31,12 @@
             </select>
         </div>
         <div class="flex flex-col space-y-1">
-            <label for="task_status" class="text-sm font-medium text-gray-700">Status</label>
-            <select id="task_status"
-                    name="task_status"
+            <label for="status" class="text-sm font-medium text-gray-700">Status</label>
+            <select id="status"
+                    name="status"
                     class="select select-bordered focus:ring-blue-500 focus:border-blue-500"
                     required>
-                <option value="{{ todo.task_status }}" selected>{{ todo.get_status }}</option>
+                <option value="{{ todo.status }}" selected>{{ todo.get_status }}</option>
                 {% for choice in Todo.STATUS_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
             </select>
         </div>

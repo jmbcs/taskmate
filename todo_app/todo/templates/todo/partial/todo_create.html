@@ -12,10 +12,10 @@
           hx-on::after-request="this.reset(); document.querySelector('.modal-backdrop button').click();">
         {% csrf_token %}
         <div class="flex flex-col space-y-1">
-            <label for="task_description" class="text-sm font-medium text-gray-700">Task Description</label>
+            <label for="description" class="text-sm font-medium text-gray-700">Task Description</label>
             <input type="text"
-                   id="task_description"
-                   name="task_description"
+                   id="description"
+                   name="description"
                    placeholder="Task Description"
                    class="input input-bordered focus:ring-blue-500 focus:border-blue-500"
                    required>
@@ -31,9 +31,9 @@
             </select>
         </div>
         <div class="flex flex-col space-y-1">
-            <label for="task_status" class="text-sm font-medium text-gray-700">Status</label>
-            <select id="task_status"
-                    name="task_status"
+            <label for="status" class="text-sm font-medium text-gray-700">Status</label>
+            <select id="status"
+                    name="status"
                     class="select select-bordered focus:ring-blue-500 focus:border-blue-500"
                     required>
                 <option value=""  disabled selected>Select Status</option>

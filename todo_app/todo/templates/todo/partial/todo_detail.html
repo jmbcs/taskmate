@@ -3,12 +3,12 @@
     <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
-    <h3 class="text-lg font-bold text-blue-500">{{ todo.task_description }}</h3>
+    <h3 class="text-lg font-bold text-blue-500">{{ todo.description }}</h3>
     <p class="text-gray-700 mt-4">
         <strong>Category:</strong> {{ todo.get_task_category_display }}
     </p>
     <p class="text-gray-700 mt-4">
-        <strong>Status:</strong> {{ todo.get_task_status_display }}
+        <strong>Status:</strong> {{ todo.get_status_display }}
     </p>
     <p class="text-gray-700 mt-4">
         <strong>Priority:</strong> {{ todo.get_task_priority_display }}

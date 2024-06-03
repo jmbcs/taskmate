@@ -32,8 +32,8 @@ seeder.add_entity(
     10,
     {
         'assigned_user': lambda x: random.choice(admin_users),
-        'task_description': lambda x: seeder.faker.sentence(),
-        'task_status': lambda x: random.choice(
+        'description': lambda x: seeder.faker.sentence(),
+        'status': lambda x: random.choice(
             ['TO_DO', 'STALLED', 'IN_PROGRESS', 'COMPLETED']
         ),
         'due_date': lambda x: seeder.faker.date_this_month(

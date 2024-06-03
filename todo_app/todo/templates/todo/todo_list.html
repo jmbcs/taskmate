@@ -2,9 +2,9 @@
 {% load partials %}
 {% startpartial todo-item %}
 <tr class="hover"  id="todo-{{ todo.id }}">
-    <td>{{ todo.task_description }}</td>
+    <td>{{ todo.description }}</td>
     <td>{{ todo.get_task_category_display }}</td>
-    <td>{{ todo.get_task_status_display }}</td>
+    <td>{{ todo.get_status_display }}</td>
     <td>{{ todo.get_task_priority_display }}</td>
     <td>{{ todo.due_date }}</td>
     <td>

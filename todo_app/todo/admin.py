@@ -5,7 +5,7 @@ from todo.models import Todo
 
 
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ['assigned_user', 'task_description', 'task_status', 'created_at']
+    list_display = ['assigned_user', 'description', 'status', 'created_at']
 
 
 admin.site.register(Todo, TodoAdmin)
