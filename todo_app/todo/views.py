@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from todo.forms import TodoForm  # Create your views here.
 from todo.models import Todo
 
@@ -60,6 +61,9 @@ def update_todo(request: HttpRequest, pk):
         form = TodoForm(request.POST, instance=todo)
         if form.is_valid():
             todo = form.save(commit=False)
+
+            todo.updated_at = timezone.now()
+            print(todo.updated_at)
             todo.assigned_user = request.user
             todo.save()
 
@@ -70,7 +74,7 @@ def update_todo(request: HttpRequest, pk):
         # Pre-fill the form with the existing todo item's data
         form = TodoForm(instance=todo)
 
-    return render(request, 'todo/todo_edit.html', {'form': form, 'todo': todo})
+    return render(request, 'todo/partial/edit_todo.html', {'form': form, 'todo': todo})
 
 
 @login_required

@@ -2,14 +2,14 @@
     <form method="dialog">
         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
-    <h2 class="text-xl font-bold text-blue-500 mb-4">Edit Task</h2>
+    <h2 class="text-xl font-bold  mb-4">Edit Task</h2>
     <form method="post"
           class="space-y-4"
           hx-post="{% url 'update_todo' todo.id %}"
           hx-target="#todo-{{ todo.id }}"
           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
           hx-swap="outerHTML"
-          hx-on::after-request="this.reset(); document.querySelector('.modal-backdrop button').click();">
+          id="edit-task-form">
         {% csrf_token %}
         <div class="flex flex-col space-y-1">
             <label for="task_description" class="text-sm font-medium text-gray-700">Task Description</label>
@@ -56,7 +56,7 @@
                    id="due_date"
                    name="due_date"
                    class="input input-bordered focus:ring-blue-500 focus:border-blue-500"
-                   value="{{ todo.due_date }}"
+                   value="{{ todo.due_date|date:'Y-m-d' }}"
                    required>
         </div>
         <div class="flex flex-col space-y-1">
@@ -66,8 +66,9 @@
                       class="input input-bordered focus:ring-blue-500 focus:border-blue-500 h-28 resize-vertical"
                       required>{{ todo.notes }}</textarea>
         </div>
-        <button type="submit"
-                class="btn btn-primary w-full py-2 px-4 rounded-full text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <button type="button"
+                class="btn btn-primary w-full py-2 px-4 rounded-full text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                onclick="document.getElementById('confirmation-modal').style.display = 'block'; document.getElementById('modal-box').setAttribute('hidden', ''); document.getElementById('task-details-modal').setAttribute('hidden', '')">
             Save Changes
         </button>
     </form>
@@ -75,3 +76,23 @@
 <form method="dialog" class="modal-backdrop">
     <button>close</button>
 </form>
+<!-- Confirmation Modal -->
+<div class="modal-box hidden " id="confirmation-modal">
+    <h2 class="text-xl font-bold mb-4">Confirm Changes</h2>
+    <p class="text-gray-700 mb-4">Are you sure you want to save these changes?</p>
+    <div class="flex justify-end space-x-4">
+        <button type="button"
+                class="btn btn-sm btn-secondary"
+                onclick="document.getElementById('confirmation-modal').style.display = 'none'; document.getElementById('modal-box').removeAttribute('hidden');">
+            Cancel
+        </button>
+        <button type="button"
+                class="btn btn-sm btn-primary"
+                hx-on="click"
+                hx-post="{% url 'update_todo' todo.id %}"
+                hx-target="#todo-{{ todo.id }}"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-swap="outerHTML"
+                hx-include="#edit-task-form">Confirm</button>
+    </div>
+</div>
