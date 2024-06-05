@@ -1,0 +1,10 @@
+<tr class="hover" id="todo-{{ todo.id }}">
+    <td>{{ todo.description }}</td>
+    <td>{{ todo.get_category_display }}</td>
+    <td>{{ todo.get_status_display }}</td>
+    <td>{{ todo.get_priority_display }}</td>
+    <td>{{ todo.due_date }}</td>
+    <td>
+        <button class="btn btn-xs" onclick="todo_details_{{ todo.id }}.showModal()">More</button>
+    </td>
+</tr>

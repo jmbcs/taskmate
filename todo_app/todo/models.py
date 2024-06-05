@@ -83,7 +83,7 @@ class Todo(models.Model):
         except KeyError:
             return self.get_badge_html('Unknown', 'bg-gray-500')
 
-    def get_task_priority_display(self):
+    def get_priority_display(self):
         """Returns the current task priority or 'Unknown'"""
         try:
             priority_label = dict(self.PRIORITY_CHOICES)[self.priority]
@@ -98,7 +98,7 @@ class Todo(models.Model):
         except KeyError:
             return self.get_badge_html('Unknown', 'badge-error')
 
-    def get_task_category_display(self):
+    def get_category_display(self):
         """Returns the current task category or 'Unknown'"""
         try:
             category_label = dict(self.CATEGORY_CHOICES)[self.category]

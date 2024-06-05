@@ -1,27 +1,13 @@
 {% extends 'core/base.html' %}
 {% load partials %}
-{% startpartial todo-item %}
-<tr class="hover"  id="todo-{{ todo.id }}">
-    <td>{{ todo.description }}</td>
-    <td>{{ todo.get_task_category_display }}</td>
-    <td>{{ todo.get_status_display }}</td>
-    <td>{{ todo.get_task_priority_display }}</td>
-    <td>{{ todo.due_date }}</td>
-    <td>
-        <button class="btn btn-xs"
-                hx-get="{% url 'todo_detail' todo.id %}"
-                hx-target="#todo_detail_modal"
-                hx-swap="innerHTML"
-                onclick="todo_detail_modal.showModal()">More</button>
-        <dialog id="todo_detail_modal" class="modal">
-        </dialog>
-    </td>
-</tr>
+{% startpartial todo-item-row %}
+{% include 'todo/snippet/todo_row.html' %}
+{% include 'todo/snippet/todo_more.html' %}
 {% endpartial %}
 {% block content %}
     <div class="max-w-6xl mx-auto py-10 px-6 xl:px-0 md:flex md:flex-col lg:flex-row justify-between">
         <div class="overflow-x-auto w-full">
-            <table class="table table-xs  w-full lg:table-lg md:table-sm">
+            <table class="table table-xs w-full lg:table-lg md:table-sm">
                 <thead>
                     <tr>
                         <th>Description</th>
@@ -34,12 +20,12 @@
                 </thead>
                 <tbody id="todo-table-body">
                     {% for todo in todos %}
-                        {% partial todo-item %}
+                        {% partial todo-item-row %}
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-sm bg-blue-500 border-blue-500 hover:bg-blue-700 hover:border-blue-500 text-white w-full mt-4  lg:ml-4 lg:w-auto "
+        <button class="btn btn-sm bg-blue-500 border-blue-500 hover:bg-blue-700 hover:border-blue-500 text-white w-full mt-4 lg:ml-4 lg:w-auto"
                 hx-get="{% url 'todo_create' %}"
                 hx-target="#todo_create_modal"
                 onclick="todo_create_modal.showModal()">New Task</button>
