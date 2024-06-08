@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_protect
 
 User = get_user_model()
 
@@ -11,6 +12,7 @@ def front_page(request: HttpRequest):
     return render(request, 'core/front_page.html')
 
 
+@csrf_protect
 def sign_up(request: HttpRequest):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -27,6 +29,7 @@ def sign_up(request: HttpRequest):
     return render(request, 'core/sign_up.html', context=context)
 
 
+@csrf_protect
 def login_view(request):
 
     if request.method == 'POST':

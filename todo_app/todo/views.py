@@ -5,11 +5,13 @@ from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_http_methods
 from todo.forms import SearchForm, TodoForm  # Create your views here.
 from todo.models import Todo
 
 
+@csrf_protect
 @login_required
 @require_http_methods(["GET"])
 def todo_list(request: HttpRequest):
@@ -18,6 +20,7 @@ def todo_list(request: HttpRequest):
     return render(request, 'todo/todo_list.html', context)
 
 
+@csrf_protect
 @login_required
 @require_http_methods(["GET"])
 def todo_search(request: HttpRequest):
@@ -49,6 +52,7 @@ def todo_search(request: HttpRequest):
     return render(request, 'todo/todo_table.html#todo-rows', context)
 
 
+@csrf_protect
 @login_required
 @require_http_methods(["DELETE"])
 def todo_delete(request: HttpRequest, pk: int):
@@ -62,6 +66,7 @@ def todo_delete(request: HttpRequest, pk: int):
         return HttpResponse({"error": str(e)}, status=500)
 
 
+@csrf_protect
 @login_required
 @require_http_methods(["POST"])
 def todo_submit(request: HttpRequest):
@@ -82,6 +87,7 @@ def todo_submit(request: HttpRequest):
     return render(request, 'todo/todo_table.html#todo-rows', context)
 
 
+@csrf_protect
 @login_required
 @require_http_methods(["GET", "POST"])
 def todo_update(request: HttpRequest, pk: int):
@@ -109,6 +115,7 @@ def todo_update(request: HttpRequest, pk: int):
     )
 
 
+@csrf_protect
 @login_required
 @require_http_methods(["GET"])
 def todo_update_details(request: HttpRequest, pk: int):
@@ -120,6 +127,7 @@ def todo_update_details(request: HttpRequest, pk: int):
     )
 
 
+@csrf_protect
 @require_http_methods(["GET"])
 @login_required
 def todo_edit(request, pk):
