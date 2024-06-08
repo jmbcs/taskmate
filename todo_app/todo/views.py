@@ -83,7 +83,7 @@ def todo_submit(request: HttpRequest):
 
 
 @login_required
-@require_http_methods(["GET", "UPDATE"])
+@require_http_methods(["GET", "POST"])
 def todo_update(request: HttpRequest, pk: int):
     todo = get_object_or_404(Todo, pk=pk)
     if request.method == 'POST':
