@@ -6,5 +6,6 @@
     <td>{{ todo.due_date }}</td>
     <td>
         <button class="btn btn-xs" onclick="todo_details_{{ todo.id }}.showModal()">More</button>
+        {% include 'todo/snippet/todo_more.html' %}
     </td>
 </tr>

@@ -1,17 +1,13 @@
 {% extends 'core/base.html' %}
-{% load partials %}
-{% startpartial todo-item-row %}
-{% include 'todo/snippet/todo_row.html' %}
-{% include 'todo/snippet/todo_more.html' %}
-{% endpartial %}
 {% block content %}
     <div class="md:max-w-6xl md:mx-auto md:mt-4 md:px-6 xl:px-0 md:w-full py-4">
         <div class="sticky top-0 z-50 bg-blue-500 md:rounded-3xl p-3 flex justify-between mb-4">
             <form id="todo-search-form"
-                  hx-get="{% url 'todo_list' %}"
+                  hx-get="{% url 'todo_search' %}"
                   hx-target="#todo-table-body"
                   hx-trigger="submit"
-                  hx-swap="outerHTML"
+                  hx-swap="innerHTML"
+                  hx-on:submit="this.reset()"
                   class="flex items-center w-full">
                 <div class="flex items-center w-full">
                     <input type="text"
@@ -30,38 +26,29 @@
                         <option value="">Select Priority</option>
                         {% for choice in Todo.PRIORITY_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
                     </select>
-                    <input type="date"
+                    <input type="text"
+                           id="date-range-picker"
                            name="due_date"
                            class="input input-xs mr-2 bg-white text-gray-700"
-                           placeholder="Search by due date...">
+                           placeholder="Select date range...">
                 </div>
-                <button type="submit" class="btn btn-xs ml-2  bg-white">Search</button>
-                <button class="btn btn-xs ml-2  bg-white"
-                        hx-get="{% url 'todo_create' %}"
-                        hx-target="#todo_create_modal"
-                        onclick="todo_create_modal.showModal()">New Task</button>
+                <button type="submit" class="btn btn-xs ml-2 bg-white">Search</button>
             </form>
+            <button type="button"
+                    class="btn btn-xs ml-2 bg-white"
+                    onclick="todo_create_modal.showModal()">New Task</button>
         </div>
-        <div class="overflow-x-auto bg-white md:rounded-3xl p-4 border-blue-500 border-4 ">
-            <table class="table table-xs lg:table-lg md:table-sm   ">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                        <th>Due Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="todo-table-body">
-                    {% for todo in todos %}
-                        {% partial todo-item-row %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% include 'todo/todo_table.html' %}
     </div>
     <dialog id="todo_create_modal" class="modal">
+        {% include 'todo/snippet/todo_create.html' %}
     </dialog>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#date-range-picker", {
+            mode: "range",
+            dateFormat: "Y-m-d"
+        });
+    });
+    </script>
 {% endblock %}

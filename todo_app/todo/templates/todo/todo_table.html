@@ -1,0 +1,23 @@
+{% load partials %}
+{% startpartial todo-rows %}
+{% for todo in todos %}
+    {% include 'todo/snippet/todo_row.html' %}
+{% endfor %}
+{% endpartial %}
+<div class="overflow-x-auto bg-white md:rounded-3xl p-4 border-blue-500 border-4 ">
+    <table class="table table-xs lg:table-lg md:table-sm   ">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="todo-table-body">
+            {% partial todo-rows %}
+        </tbody>
+    </table>
+</div>

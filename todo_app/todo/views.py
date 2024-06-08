@@ -1,17 +1,28 @@
+from datetime import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
-from todo.forms import TodoForm  # Create your views here.
+from todo.forms import SearchForm, TodoForm  # Create your views here.
 from todo.models import Todo
 
 
 @login_required
 @require_http_methods(["GET"])
 def todo_list(request: HttpRequest):
+    todos = Todo.objects.filter(assigned_user=request.user).order_by('due_date')
+    context = {"todos": todos, "Todo": Todo}
+    return render(request, 'todo/todo_list.html', context)
+
+
+@login_required
+@require_http_methods(["GET"])
+def todo_search(request: HttpRequest):
     todos = Todo.objects.filter(assigned_user=request.user)
+    todos = Todo.objects.filter(assigned_user=request.user).order_by('due_date')
 
     description = request.GET.get('description')
     category = request.GET.get('category')
@@ -22,22 +33,20 @@ def todo_list(request: HttpRequest):
     if description:
         todos = todos.filter(description__icontains=description)
     if category:
-        for search_value, search_label in Todo.PRIORITY_CHOICES:
-            if search_label.lower() == category:
-                todos = todos.filter(category__icontains=search_value)
+        todos = todos.filter(category=category)
     if status:
-        for search_value, search_label in Todo.PRIORITY_CHOICES:
-            if search_label.lower() == status:
-                todos = todos.filter(status__icontains=search_value)
+        todos = todos.filter(status=status)
     if priority:
-        for search_value, search_label in Todo.PRIORITY_CHOICES:
-            if search_label.lower() == priority:
-                todos = todos.filter(priority__icontains=search_value)
-
+        todos = todos.filter(priority=priority)
     if due_date:
-        todos = todos.filter(due_date__icontains=due_date)
+
+        start_date_str, end_date_str = due_date.split(' to ')
+        start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+        todos = todos.filter(due_date__range=(start_date, end_date))
+
     context = {"todos": todos, "Todo": Todo}
-    return render(request, 'todo/todo_list.html#', context)
+    return render(request, 'todo/todo_table.html#todo-rows', context)
 
 
 @login_required
@@ -54,15 +63,7 @@ def todo_delete(request: HttpRequest, pk: int):
 
 
 @login_required
-# @require_http_methods(["GET"])
-def todo_create(request: HttpRequest):
-    context = {
-        'Todo': Todo,
-    }
-    return render(request, 'todo/snippet/todo_create.html', context)
-
-
-@login_required
+@require_http_methods(["POST"])
 def todo_submit(request: HttpRequest):
 
     form = TodoForm(request.POST)
@@ -71,13 +72,18 @@ def todo_submit(request: HttpRequest):
         todo = form.save(commit=False)
         todo.assigned_user = request.user
         todo.save()
-
         context = {'todo': todo}
-        return render(request, 'todo/todo_list.html#todo-item-row', context)
-    return render(request, 'todo/todo_list.html')
+
+    todos = Todo.objects.filter(assigned_user=request.user).order_by('due_date')
+    context = {
+        'Todo': Todo,
+        'todos': todos,
+    }
+    return render(request, 'todo/todo_table.html#todo-rows', context)
 
 
 @login_required
+@require_http_methods(["GET", "UPDATE"])
 def todo_update(request: HttpRequest, pk: int):
     todo = get_object_or_404(Todo, pk=pk)
     if request.method == 'POST':
@@ -104,6 +110,7 @@ def todo_update(request: HttpRequest, pk: int):
 
 
 @login_required
+@require_http_methods(["GET"])
 def todo_update_details(request: HttpRequest, pk: int):
     todo = get_object_or_404(Todo, pk=pk)
     context = {'todo': todo}
@@ -113,14 +120,10 @@ def todo_update_details(request: HttpRequest, pk: int):
     )
 
 
+@require_http_methods(["GET"])
 @login_required
 def todo_edit(request, pk):
     todo = get_object_or_404(Todo, pk=pk)
     form = TodoForm(instance=todo)
-
     context = {'form': form, 'todo': todo, 'Todo': Todo}
-
     return render(request, 'todo/partial/todo_partial_edit.html#todo-edit', context)
-
-
-# update todo_details_{{ todo.id }
