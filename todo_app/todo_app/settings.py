@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-t)7rtrnz)+v5jul%1l3@qx#x+xc=jh7h3k%7#_g#o6i0i97x2v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["app-todo-django-htmx.onrender.com"]
+ALLOWED_HOSTS = ["localhost", "app-todo-django-htmx.onrender.com"]
 
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'core',
     'todo',
     'template_partials',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,3 +130,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOWED_ORIGINS = [
+    "https://app-todo-django-htmx.onrender.com",
+    # Add other origins as needed
+]
