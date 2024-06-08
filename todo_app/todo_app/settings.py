@@ -135,3 +135,4 @@ CORS_ALLOWED_ORIGINS = [
     "https://app-todo-django-htmx.onrender.com",
     # Add other origins as needed
 ]
+CSRF_TRUSTED_ORIGINS = ['https://app-todo-django-htmx.onrender.co']
