@@ -1,11 +1,14 @@
 {% extends 'core/base.html' %}
 {% block content %}
-  <header class="px-6 py-10 lg:py-20 min-h-[80vh] bg-blue-500  flex flex-col justify-center">
+  <header class="px-6 py-10 lg:py-20 min-h-[80vh] bg-blue-500 flex flex-col justify-center">
     <div class="max-w-3xl mx-auto text-center">
       <p class="mb-2 text-3xl lg:text-5xl text-white">Welcome to TaskMate</p>
       <p class="mb-10 text-white">A modern todo app to track your personal goals</p>
       <a href="{% url 'todo_list' %}"
-         class="btn btn-md rounded-xl bg-white sm:btn-sm md:btn-md lg:btn-lg">Start Tasking</a>
+         class="btn btn-outline btn-md rounded-full bg-white border-none sm:btn-sm md:btn-md lg:btn-lg mb-4">Start Tasking</a>
+      <button disabled class="btn btn-warning btn-lg mt-4">
+        Under development, use as demo, do not store important information
+      </button>
     </div>
   </header>
 {% endblock %}

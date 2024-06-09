@@ -1,0 +1,26 @@
+# Ignore development-specific files and directories
+node_modules
+*.log
+*.tmp
+
+# Ignore version control files
+.git
+.gitignore
+
+# Ignore Docker-specific files
+.dockerignore
+.dockerignore.sample
+.docker
+
+# Ignore editor-specific files
+.vscode
+*.sublime*
+.idea
+
+# Ignore test and documentation files
+tests
+docs
+
+*.md
+*.venv
+*.vscode

@@ -10,8 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# loading variables from .env file
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,13 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t)7rtrnz)+v5jul%1l3@qx#x+xc=jh7h3k%7#_g#o6i0i97x2v'
+SECRET_KEY = os.getenv('TASK_MATE__SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "app-todo-django-htmx.onrender.com"]
-
+ALLOWED_HOSTS = eval(os.getenv('TASK_MATE__ALOWED_HOSTS'))
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
@@ -131,8 +135,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+trusted_host = os.getenv('TASK_MATE__TRUSTED_HOST')
 CORS_ALLOWED_ORIGINS = [
-    "https://app-todo-django-htmx.onrender.com",
+    trusted_host,
     # Add other origins as needed
 ]
-CSRF_TRUSTED_ORIGINS = ['https://app-todo-django-htmx.onrender.com']
+CSRF_TRUSTED_ORIGINS = [trusted_host]

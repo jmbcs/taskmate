@@ -1,13 +1,12 @@
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_http_methods
-from todo.forms import SearchForm, TodoForm  # Create your views here.
+from todo.forms import TodoForm  # Create your views here.
 from todo.models import Todo
 
 
@@ -56,10 +55,17 @@ def todo_search(request: HttpRequest):
 @login_required
 @require_http_methods(["DELETE"])
 def todo_delete(request: HttpRequest, pk: int):
+
     try:
         todo = get_object_or_404(Todo, pk=pk)
         todo.delete()
-        return HttpResponse({"success": True})
+        todos = Todo.objects.filter(assigned_user=request.user)
+        context = {"todos": todos, "Todo": Todo}
+
+        if todos.count() == 0:
+            return render(request, 'todo/todo_page.html', context)
+
+        return render(request, 'todo/todo_page.html', context)
     except Todo.DoesNotExist:
         return HttpResponse({"error": "Todo item does not exist"}, status=404)
     except Exception as e:
@@ -80,11 +86,15 @@ def todo_submit(request: HttpRequest):
         context = {'todo': todo}
 
     todos = Todo.objects.filter(assigned_user=request.user).order_by('due_date')
+
     context = {
         'Todo': Todo,
         'todos': todos,
     }
-    return render(request, 'todo/todo_table.html#todo-rows', context)
+    if todos.count() > 1:
+        return render(request, 'todo/todo_table.html#todo-rows', context)
+    else:
+        return render(request, 'todo/todo_page.html', context)
 
 
 @csrf_protect

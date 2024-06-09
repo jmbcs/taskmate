@@ -1,0 +1,101 @@
+<div class="max-w-6xl mx-auto mt-4 px-6 py-4 xl:px-0 md:w-full "
+     id="todo_page">
+    {% if not todos %}
+        <div class="bg-gray-100 p-6 rounded-3xl shadow-md text-center"
+             id="no_todo_warning">
+            <p class="text-lg text-gray-800 mb-4">You have no tasks.</p>
+            <p class="text-gray-600 mb-4">Get started by creating a new task.</p>
+            <button type="button"
+                    class="btn btn-primary border-none bg-blue-500 hover:bg-blue-700 text-white"
+                    onclick="document.getElementById('todo_create_modal').showModal()">Create Task</button>
+        </div>
+    {% else %}
+        <div class="sticky top-0 z-50 bg-blue-500 rounded-3xl flex justify-between mb-4 p-3">
+            <form id="todo-search-form"
+                  hx-get="{% url 'todo_search' %}"
+                  hx-target="#todo-table-body"
+                  hx-trigger="submit"
+                  hx-swap="innerHTML"
+                  hx-on:submit="this.reset()"
+                  class="flex items-center w-full">
+                <details class="dropdown" id="search-dropdown">
+                    <summary class="btn btn-xs ml-2 bg-white btn-outline border-none">Search</summary>
+                    <ul tabindex="0"
+                        class="dropdown-content z-[1] menu p-4 shadow bg-white rounded-box text-left align-left ">
+                        <button type="button"
+                                class="absolute btn btn-xs btn-circle btn-ghost top-1 right-1 text-gray-400 hover:text-gray-900 "
+                                onclick="closeDropdown(); document.getElementById('todo-search-form').reset();">
+                            ✕
+                        </button>
+                        <li class="p-2">
+                            <input type="text"
+                                   name="description"
+                                   class="text-xs bg-gray-200 border-2 text-black rounded-3xl w-full placeholder-gray-600 focus:bg-white focus:border-gray-400"
+                                   placeholder="Search by description...">
+                        </li>
+                        <li class="py-2">
+                            <select name="category"
+                                    class="text-xs bg-white placeholder-gray-700 text-gray-700 rounded-3xl">
+                                <option disabled selected value="">Select Category</option>
+                                {% for choice in Todo.CATEGORY_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
+                            </select>
+                        </li>
+                        <li class="py-2">
+                            <select name="status"
+                                    class="text-xs bg-white placeholder-gray-700 text-gray-700 rounded-3xl">
+                                <option disabled selected value="">Select Status</option>
+                                {% for choice in Todo.STATUS_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
+                            </select>
+                        </li>
+                        <li class="py-2">
+                            <select name="priority"
+                                    class="text-xs bg-white placeholder-gray-700 text-gray-700 rounded-3xl">
+                                <option disabled selected value="">Select Priority</option>
+                                {% for choice in Todo.PRIORITY_CHOICES %}<option value="{{ choice.0 }}">{{ choice.1 }}</option>{% endfor %}
+                            </select>
+                        </li>
+                        <li class="py-2">
+                            <input type="text"
+                                   id="date-range-picker"
+                                   name="due_date"
+                                   class="text-xs bg-white placeholder-gray-700 text-gray-700 rounded-3xl bg-white"
+                                   placeholder="Select date range...">
+                        </li>
+                        <li class="py-2">
+                            <button type="submit"
+                                    tabindex="0"
+                                    class="btn btn-xs bg-white rounded-3xl border-blue-500 hover:bg-blue-500 hover:text-white border-2 hover:border-none shadow"
+                                    onclick="closeDropdown()">Search</button>
+                        </li>
+                    </ul>
+                </details>
+            </form>
+            <button type="reset"
+                    tabindex="0"
+                    hx-get="{% url 'todo_search' %}"
+                    hx-target="#todo-table-body"
+                    hx-swap="innerHTML"
+                    hx-on:click="document.getElementById('todo-search-form').reset();"
+                    class="btn btn-xs btn-outline ml-2 bg-white border-none"
+                    onclick="closeDropdown()">Reload</button>
+            <button type="button"
+                    class="btn btn-xs btn-outline ml-2 bg-white border-none"
+                    onclick="todo_create_modal.showModal()">New Task</button>
+        </div>
+        {% include 'todo/todo_table.html' %}
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#date-range-picker", {
+            mode: "range",
+            dateFormat: "Y-m-d"
+        });
+    });
+    function closeDropdown() {
+        document.getElementById('search-dropdown').removeAttribute('open');
+    }
+    </script>
+{% endif %}
+<dialog id="todo_create_modal" class="modal">
+    {% include 'todo/snippet/todo_create.html' %}
+</dialog>

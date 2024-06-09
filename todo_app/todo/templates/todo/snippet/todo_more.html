@@ -60,9 +60,9 @@
                 </button>
                 <button class="btn btn-error btn-sm"
                         hx-delete="{% url 'todo_delete' todo.id %}"
-                        hx-target="#todo-{{ todo.id }}"
+                        hx-target="#todo_page"
                         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        hx-swap="delete"
+                        hx-swap="outerHTML"
                         hx-trigger="click"
                         onclick="todo_details_{{ todo.id }}.close(); todo_delete_{{ todo.id }}.close()">Delete</button>
             </form>

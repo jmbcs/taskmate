@@ -1,0 +1,23 @@
+name: taskmate
+
+#? VOLUMES
+
+volumes:
+  taskmate_storage:
+    name: taskmate_storage
+    driver: local
+
+services:
+  taskmate:
+    container_name: taskmate
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+    volumes:
+      - taskmate_storage:/var/lib/db.sqlite3

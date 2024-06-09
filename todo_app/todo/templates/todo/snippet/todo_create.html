@@ -6,10 +6,10 @@
     <form method="post"
           class="space-y-4"
           hx-post="{% url 'todo_submit' %}"
-          hx-target="#todo-table-body"
+          hx-target="{% if todos %}#todo-table-body{% else %}#todo_page{% endif %}"
           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-          hx-swap="innerHTML"
-          hx-on::after-request="this.reset(); document.querySelector('.modal-backdrop button').click();">
+          hx-swap="{% if todos %}innerHTML{% else %}outerHTML{% endif %}"
+          hx-on::before-request="this.reset(); document.querySelector('.modal-backdrop button').click();">
         {% csrf_token %}
         <div class="flex flex-col space-y-1">
             <label for="description" class="text-sm font-medium text-gray-700">Task Description</label>
