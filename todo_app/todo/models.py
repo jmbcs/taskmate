@@ -53,7 +53,7 @@ class Todo(models.Model):
     def get_badge_html(self, label, color):
         """Returns HTML for a badge with the specified label and color"""
         return format_html(
-            '<span class="badge badge-sm  border-none lg:badge-md  {}">{}</span>',
+            '<span class="badge badge-sm text-xs text-white border-none font-bold lg:badge-md whitespace-nowrap {}">{}</span>',
             color,
             label,
         )
