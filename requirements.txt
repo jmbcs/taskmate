@@ -2,6 +2,7 @@ asgiref==3.8.1
 click==8.1.7
 colorama==0.4.6
 cssbeautifier==1.15.1
+dj-database-url==2.2.0
 Django==5.0.6
 django-cors-headers==4.3.1
 django-seed==0.3.1
@@ -23,3 +24,4 @@ six==1.16.0
 sqlparse==0.5.0
 toposort==1.10
 tqdm==4.66.4
+typing_extensions==4.12.2
