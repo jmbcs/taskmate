@@ -29,7 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('TASK_MATE__SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('TASK_MATE_DEBUG', 'True') == True
+TASK_MATE_DEBUG = os.getenv('TASK_MATE_DEBUG')
+if TASK_MATE_DEBUG == "False":
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = eval(os.getenv('TASK_MATE__ALOWED_HOSTS'))
 LOGOUT_REDIRECT_URL = '/'
@@ -87,8 +91,9 @@ WSGI_APPLICATION = 'todo_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
 if not DEBUG:
-    DATABASES = {'default': dj_database_url.parse(os.environ("DATABASE_URL"))}
+    DATABASES = {'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))}
 else:
     DATABASES = {
         'default': {
