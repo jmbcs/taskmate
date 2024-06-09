@@ -1,5 +1,7 @@
 # TaskMate (Under Development)
 
+Check it out : https://taskmate-fxue.onrender.com
+
 TaskMate is a modern todo application developed using Django and htmx.
 Its currently in development and should not be used in production.
 
